@@ -1,0 +1,18 @@
+version: '3'
+services:
+  backend_main:
+    build: ./backend
+    container_name: styleshift-main-backend_main
+    image: styleshift-main-backend_main:latest
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - /backend
+    ports:
+      - "8000:8000"
+  frontend:
+    build: ./front
+    volumes:
+      - './front:/app'
+      - '/front/node_modules'
+    ports:
+      - 8080:8080
