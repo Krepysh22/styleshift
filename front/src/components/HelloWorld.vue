@@ -5,28 +5,34 @@
     <form>
       <input type="text" id="name" placeholder="Ваше имя" required>
       <input type="text" id="phone" placeholder="Ваш телефон" required>
-      <input type="button" value="Отправить" onclick="sendData()">
+      <input type="button" value="Отправить" @click="sendData">
     </form>
     </div>
 
+</template>
 <script>
 
-    function sendData() {
-      var name = document.getElementById("name").value;
-      var email = document.getElementById("phone").value;
+export default {
+methods:{
+      sendData() {
+        let name = document.getElementById("name").value;
+        let phone = document.getElementById("phone").value;
 
-      var data = {
-        name: name,
-        phone: phone
-      };
+        let data = {
+          name: name,
+          phone: phone
+        };
 
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://127.0.0.1:8000/api/create_appeal", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://127.0.0.1:8000/api/create_appeal", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
 
 
-      xhr.send(JSON.stringify(data));
+        xhr.send(JSON.stringify(data));
     }
+}
+}
+
   </script>
 
   <style scoped>
@@ -38,7 +44,6 @@
     }
 
 .container input[type="text"],
-.container input[type="email"],
 .container input[type="submit"] {
       width: 100%;
       padding: 10px;
