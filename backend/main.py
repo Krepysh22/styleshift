@@ -1,13 +1,21 @@
 from fastapi import FastAPI
+
+from db import init_db
+# import backend.db
+from routers_main import router
+
 app = FastAPI()
 
 
-@app.get("/pets/")
-async def get_all_pets():
-    """[summary]
-    Gets all pets adopted/rescued or not.
-    [description]
-    Endpoint for all pets.
-    """
-    fake_pets = [{"name": "Guero"}, {"name": "Pepita"}]
-    return fake_pets
+# DAL - DATA ACCESS LAYER
+
+app.include_router(router)
+
+
+@app.on_event("startup")
+async def on_startup():
+    await init_db()
+
+
+if __name__ == '__main__':
+    print('qwe')

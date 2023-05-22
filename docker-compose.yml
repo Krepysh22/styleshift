@@ -1,18 +1,49 @@
-version: '3'
+version: '3.8'
+
 services:
-  backend_main:
+  web:
     build: ./backend
-    container_name: styleshift-main-backend_main
-    image: styleshift-main-backend_main:latest
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      - /backend
+      - "./backend:/backend"
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/styleshift_db
+    depends_on:
+      - db
+  db:
+    container_name: styleshift_main
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=styleshift_db
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+
   frontend:
-    build: ./front
+    build:
+      context: front
+      dockerfile: Dockerfile
     volumes:
       - './front:/app'
       - '/front/node_modules'
     ports:
       - 8080:8080
+
+volumes:
+  postgres_data:

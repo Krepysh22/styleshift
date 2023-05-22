@@ -1,15 +1,13 @@
-FROM python:3.9
+FROM python:3-slim-buster
 
-#
-COPY . /backend
-#
-COPY requirements.txt /backend/requirements.txt
+WORKDIR /backend
 
-#
-RUN pip install --no-cache-dir --upgrade -r /backend/requirements.txt
+COPY requirements.txt .
 
-#
+RUN pip install -r requirements.txt
 
+COPY . .
 
-#
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+ENV PYTHONPATH /backend
+
+CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "80"]
