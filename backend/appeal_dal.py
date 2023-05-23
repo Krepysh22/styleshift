@@ -13,7 +13,6 @@ class AppealDAL:
     async def create_appeal(self, name: str, phone: str):
         new_book = Appeal(name=name, phone=phone)
         self.db_session.add(new_book)
-        print(new_book)
         await self.db_session.flush()
 
     async def get_all_appeals(self) -> List[Appeal]:
