@@ -1,7 +1,7 @@
 <template>
 
   <div class="container">
-    <h2>Введите ваше имя и почту</h2>
+    <h2>Введите имя и почту</h2>
     <form>
       <input type="text" id="name" placeholder="Ваше имя" required>
       <input type="text" id="phone" placeholder="Ваш телефон" required>
